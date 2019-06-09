@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="https://webrtchacks.github.io/adapter/adapter-latest.js"></script>
+  </head>
+  <body>
+    <video id="red5pro-publisher" autoplay muted></video>
+    <script src="lib/red5pro/red5pro-sdk.min.js"></script>
+    <script>
+        (function (red5prosdk) {
+var publisher = new red5prosdk.RTCPublisher();
+publisher.init({
+    protocol: 'ws',
+    port: 5080,
+    host: '3.215.215.88',//for locally running server you should change this to host:'localhost'
+    app: 'live',
+    streamName: 'mystream',
+    rtcConfiguration: {
+      iceServers: [{urls: 'stun:stun2.l.google.com:19302'}],
+      iceCandidatePoolSize: 2,
+      bundlePolicy: 'max-bundle'
+    },
+    streamMode: 'live',
+    mediaElementId: 'red5pro-publisher',
+    bandwidth: {
+      audio: 56,
+      video: 512
+    },
+    mediaConstraints: {
+      audio: true,
+      video: {
+        width: {
+          exact: 640
+        },
+        height: {
+          exact: 480
+        },
+        frameRate: {
+          min: 8,
+          max: 24
+        }
+      }
+    }
+  })
+  .then(function() {
+    return publisher.publish();
+  })
+  .catch(function(error) {
+    console.error(error);
+  });
+})(window.red5prosdk);
+    </script>
+  </body>
+</html>
