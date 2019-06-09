@@ -18,7 +18,6 @@ navigator.mediaDevices.getUserMedia({video: true, audio: false})
   });
   video.addEventListener('canplay', function(e) {
     if(!streaming) {
-      // Set video / canvas height
       height = video.videoHeight / (video.videoWidth / width);
 
       video.setAttribute('width', width);
